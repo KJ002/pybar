@@ -1,7 +1,9 @@
 import yaml
+from pathlib import Path
 
 def main():
-    with open('$HOME/.config/pybar/config') as file:
+
+    with open(str(Path.home()) + '/.config/pybar/config') as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     print(config)
