@@ -25,7 +25,7 @@ def main():
     for i in active_modules:
         result.insert(
             i["position"],
-            module_table[list(i.keys())[0]](i.get())
+            module_table[list(i.keys())[0]](i.get("args"))
         )
 
     print(
