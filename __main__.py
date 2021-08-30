@@ -7,8 +7,13 @@ from typing import Optional, List
 def cpu(args: List) -> str:
     return f"{psutil.cpu_percent(*args)}%"
 
+def mem(args: List) -> str:
+    return f"{psutil.virtual_memory(*args)[2]}%"
 
-module_table = {"cpu": cpu}
+module_table = {
+    "cpu": cpu,
+    "mem": mem
+}
 
 
 def main():
@@ -25,7 +30,7 @@ def main():
     for i in active_modules:
         result.insert(
             i["position"],
-            module_table[list(i.keys())[0]](i.get("args"))
+            module_table[list(i.keys())[0]](i.get("args", []))
         )
 
     print(
