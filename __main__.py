@@ -9,11 +9,14 @@ import pytz
 def cpu(args: List) -> str:
     return f"{psutil.cpu_percent(*args)}%"
 
+
 def mem(args: List) -> str:
     return f"{psutil.virtual_memory(*args)[2]}%"
 
+
 def dtime(args: List) -> str:
     return f"{datetime.now(pytz.timezone(args[0])).strftime(args[1])}"
+
 
 module_table = {
     "cpu": cpu,
