@@ -4,6 +4,15 @@ from pathlib import Path
 from typing import List
 from datetime import datetime
 import pytz
+from dataclasses import dataclass, field
+
+@dataclass
+class Module:
+    type: str
+    enabled: bool
+    position: int
+    prefix: str = ""
+    args: List = field(default_factory=list)
 
 
 def cpu(args: List) -> str:
@@ -32,29 +41,18 @@ def main():
             Loader=yaml.FullLoader
         )
 
+    seperator = config["bar"][0].get("seperator", "")
+
     active_modules = [
-        i for i in config["modules"]
-        if list(i.values())[0] == "active"
+        Module(**i) for i in config["modules"] if i["enabled"]
     ]
 
     result = [None for i in active_modules]
 
     for i in active_modules:
-        result.insert(
-            i["position"],
-            i.get("prefix", "")+module_table[
-                list(i.keys())[0]
-            ](i.get("args", []))
-        )
+        result[i.position] = i.prefix+module_table[i.type](i.args)
 
-    print(
-        config["bar"][0]["seperator"].join(
-            [
-                i for i in result
-                if i is not None
-            ]
-        )
-    )
+    print(seperator.join(result))
 
 
 if __name__ == "__main__":
