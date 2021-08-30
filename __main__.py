@@ -2,6 +2,8 @@ import yaml
 import psutil
 from pathlib import Path
 from typing import Optional, List
+from datetime import datetime
+import pytz
 
 
 def cpu(args: List) -> str:
@@ -10,9 +12,13 @@ def cpu(args: List) -> str:
 def mem(args: List) -> str:
     return f"{psutil.virtual_memory(*args)[2]}%"
 
+def dtime(args: List) -> str:
+    return f"{datetime.now(pytz.timezone(args[0])).strftime(args[1])}"
+
 module_table = {
     "cpu": cpu,
-    "mem": mem
+    "mem": mem,
+    "datetime": dtime
 }
 
 
@@ -30,7 +36,7 @@ def main():
     for i in active_modules:
         result.insert(
             i["position"],
-            module_table[list(i.keys())[0]](i.get("args", []))
+            i.get("prefix", "")+module_table[list(i.keys())[0]](i.get("args", []))
         )
 
     print(
