@@ -5,6 +5,7 @@ from typing import List
 from datetime import datetime
 import pytz
 from dataclasses import dataclass, field
+import subprocess
 
 
 def cpu(args: List) -> str:
@@ -19,10 +20,23 @@ def dtime(args: List) -> str:
     return f"{datetime.now(pytz.timezone(args[0])).strftime(args[1])}"
 
 
+def custom(args: List):
+    return subprocess.check_output(
+        args[0].split(' ')
+    ).decode(
+        'UTF-8',
+        'ignore'
+    ).replace(
+        "\n",
+        ""
+    )
+
+
 module_table = {
     "cpu": cpu,
     "mem": mem,
-    "datetime": dtime
+    "datetime": dtime,
+    "custom": custom
 }
 
 
@@ -58,7 +72,7 @@ def main():
 
     result = [i() for i in sorted(active_modules)]
 
-    print(seperator.join(result))
+    print(seperator.join([i for i in result if i]))
 
 if __name__ == "__main__":
     main()
