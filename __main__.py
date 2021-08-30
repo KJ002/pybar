@@ -27,7 +27,10 @@ module_table = {
 
 def main():
     with open(str(Path.home()) + "/.config/pybar/config.yml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+        config = yaml.load(
+            file,
+            Loader=yaml.FullLoader
+        )
 
     active_modules = [
         i for i in config["modules"]
@@ -39,7 +42,9 @@ def main():
     for i in active_modules:
         result.insert(
             i["position"],
-            i.get("prefix", "")+module_table[list(i.keys())[0]](i.get("args", []))
+            i.get("prefix", "")+module_table[
+                list(i.keys())[0]
+            ](i.get("args", []))
         )
 
     print(
