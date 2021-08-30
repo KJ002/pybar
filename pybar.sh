@@ -1,6 +1,7 @@
 #!/bin/bash
 while :
 do
-    xsetroot -name "$(python /home/james/dev/Python/pybar)"
+    cd /home/james/dev/Python/pybar
+    xsetroot -name "$(pipenv run python .)"
     sleep 1
 done

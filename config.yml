@@ -1,0 +1,19 @@
+bar:
+    - seperator: " | "
+
+modules:
+    - cpu: active
+      position: 0
+      prefix: 'CPU '
+      args: [0.2]
+
+    - mem: active
+      position: 1
+
+    - time: inactive
+      timezone: gmt
+      position: 2
+
+    - date: inactive
+      timezone: gmt
+      position: 3
