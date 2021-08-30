@@ -9,11 +9,11 @@ modules:
 
     - mem: active
       position: 1
+      prefix: 'RAM '
 
-    - time: inactive
-      timezone: gmt
+    - datetime: active
       position: 2
+      args: ['Europe/London', '%d/%m/%Y %I:%M %p']
 
-    - date: inactive
-      timezone: gmt
-      position: 3
+      # Read https://docs.python.org/3/library/datetime.html?highlight=datetime#strftime-and-strptime-format-codes
+      # for format code
