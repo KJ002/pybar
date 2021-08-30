@@ -1,7 +1,7 @@
 import yaml
 import psutil
 from pathlib import Path
-from typing import Optional, List
+from typing import List
 from datetime import datetime
 import pytz
 
