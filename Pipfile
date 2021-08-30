@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyaml = "*"
+psutil = "*"
+pytz = "*"
 
 [dev-packages]
 
