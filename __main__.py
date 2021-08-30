@@ -6,14 +6,6 @@ from datetime import datetime
 import pytz
 from dataclasses import dataclass, field
 
-@dataclass
-class Module:
-    type: str
-    enabled: bool
-    position: int
-    prefix: str = ""
-    args: List = field(default_factory=list)
-
 
 def cpu(args: List) -> str:
     return f"{psutil.cpu_percent(*args)}%"
@@ -34,6 +26,23 @@ module_table = {
 }
 
 
+@dataclass
+class Module:
+    type: str
+    enabled: bool
+    position: int
+    prefix: str = ""
+    args: List = field(default_factory=list)
+
+
+    def __lt__(self, other):
+        return self.position < other.position
+
+
+    def __call__(self):
+        return module_table[self.type](self.args)
+
+
 def main():
     with open(str(Path.home()) + "/.config/pybar/config.yml") as file:
         config = yaml.load(
@@ -47,13 +56,9 @@ def main():
         Module(**i) for i in config["modules"] if i["enabled"]
     ]
 
-    result = [None for i in active_modules]
-
-    for i in active_modules:
-        result[i.position] = i.prefix+module_table[i.type](i.args)
+    result = [i() for i in sorted(active_modules)]
 
     print(seperator.join(result))
-
 
 if __name__ == "__main__":
     main()
