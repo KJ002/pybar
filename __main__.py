@@ -54,7 +54,7 @@ class Module:
 
 
     def __call__(self):
-        return module_table[self.type](self.args)
+        return self.prefix+module_table[self.type](self.args)
 
 
 def main():
